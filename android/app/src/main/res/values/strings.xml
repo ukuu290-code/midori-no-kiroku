@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">みどりの記録</string>
+    <string name="notification_channel_name">水やりのお知らせ</string>
+    <string name="notification_channel_description">水やりの目安をお知らせします</string>
+</resources>

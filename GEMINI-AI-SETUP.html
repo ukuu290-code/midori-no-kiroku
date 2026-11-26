@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f1">
+  <title>AI相談の設定ガイド | みどりの記録</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #26342a;
+      --muted: #647166;
+      --green: #376344;
+      --green-light: #edf4eb;
+      --line: #e2e9df;
+      --surface: #fff;
+      --warning: #fff6e8;
+      --warning-line: #f0dfbd;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #f5f7f1;
+      color: var(--ink);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      line-height: 1.75;
+    }
+    a { color: #285d38; text-underline-offset: 3px; overflow-wrap: anywhere; }
+    .page { width: min(100% - 32px, 760px); margin: 0 auto; padding: 28px 0 56px; }
+    .back { display: inline-block; margin-bottom: 16px; font-size: 14px; font-weight: 650; }
+    .hero {
+      padding: 26px clamp(20px, 5vw, 40px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(135deg, #fff 5%, #edf5e9 100%);
+    }
+    .eyebrow { margin: 0 0 5px; color: var(--green); font-size: 13px; font-weight: 750; }
+    h1 { margin: 0; font-size: clamp(25px, 6vw, 36px); line-height: 1.3; letter-spacing: .01em; }
+    .hero p:last-child { margin: 12px 0 0; color: var(--muted); }
+    .route {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 16px 0 24px;
+    }
+    .route div {
+      padding: 12px 8px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      color: var(--green);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 750;
+    }
+    .route span { display: block; color: #91a293; font-size: 16px; }
+    .notice {
+      margin: 18px 0;
+      padding: 16px 18px;
+      border: 1px solid var(--warning-line);
+      border-radius: 16px;
+      background: var(--warning);
+    }
+    .notice strong { display: block; margin-bottom: 4px; }
+    .notice p { margin: 4px 0; font-size: 14px; }
+    .section-title { margin: 30px 0 12px; font-size: 21px; }
+    .step {
+      margin: 12px 0;
+      padding: 20px clamp(17px, 4vw, 25px);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 5px 18px rgba(48, 69, 47, .035);
+    }
+    .step h3 { display: flex; align-items: flex-start; gap: 11px; margin: 0 0 10px; font-size: 17px; line-height: 1.5; }
+    .number {
+      display: inline-grid;
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 14px;
+    }
+    .step p { margin: 8px 0; }
+    .step ol, .step ul { margin: 8px 0; padding-left: 1.4em; }
+    .step li { padding: 2px 0; }
+    .choice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .choice {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: #fbfcfa;
+    }
+    .choice h3 { margin: 0 0 7px; color: var(--green); font-size: 16px; }
+    .choice p { margin: 5px 0; font-size: 14px; }
+    .choice .link-button {
+      display: inline-block;
+      margin-top: 7px;
+      padding: 8px 11px;
+      border-radius: 9px;
+      background: var(--green-light);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .code {
+      display: block;
+      margin: 8px 0;
+      padding: 11px 13px;
+      border-radius: 10px;
+      background: #f3f5f2;
+      color: #26342a;
+      font: 13px/1.6 ui-monospace, Consolas, monospace;
+      overflow-wrap: anywhere;
+    }
+    .tip { color: var(--muted); font-size: 13px; }
+    .success {
+      padding: 17px 19px;
+      border-radius: 16px;
+      background: var(--green-light);
+    }
+    .success p { margin: 4px 0; }
+    details {
+      margin: 9px 0;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface);
+    }
+    summary { color: var(--green); cursor: pointer; font-weight: 700; }
+    details p { margin: 9px 0 2px; color: var(--muted); font-size: 14px; }
+    footer { margin-top: 24px; color: var(--muted); font-size: 12px; text-align: center; }
+    @media (max-width: 520px) {
+      .page { width: min(100% - 22px, 760px); padding-top: 16px; }
+      .route { gap: 5px; }
+      .route div { font-size: 10px; }
+      .choice-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <a class="back" href="./index.html">← アプリに戻る</a>
+    <header class="hero">
+      <p class="eyebrow">みどりの記録 · はじめてガイド</p>
+      <h1>植物相談AIのつなぎ方</h1>
+      <p>最初に一度設定すれば、設定はこの端末に保存されます。次回からはそのまま相談でき、サービスやAPIキーもあとから変更できます。</p>
+    </header>
+
+    <div class="route" aria-label="設定の流れ">
+      <div>① AIサービスを選ぶ<span>↓</span></div>
+      <div>② Workerを用意する<span>↓</span></div>
+      <div>③ アプリで接続する</div>
+    </div>
+
+    <aside class="notice">
+      <strong>はじめに知っておいてください</strong>
+      <p>🔐 APIキーはアプリに入力しません。Cloudflare Workerの「Secret」に登録します。</p>
+      <p>💳 ChatGPTの契約とOpenAI APIは別です。OpenAI APIは利用料金が発生することがあります。料金・利用上限を確認してください。</p>
+      <p>🔒 相談文や植物情報は選んだAIサービスへ送られます。個人情報・住所・パスワードなどは入力しないでください。</p>
+    </aside>
+
+    <h2 class="section-title">1. 使うAIを選ぶ</h2>
+    <div class="choice-grid">
+      <section class="choice">
+        <h3>Google Gemini</h3>
+        <p>Google AI StudioでAPIキーを作成します。無料枠の有無や条件は、利用前に公式情報で確認してください。</p>
+        <a class="link-button" href="https://aistudio.google.com/api-keys" target="_blank" rel="noopener noreferrer">Gemini APIキーを作る ↗</a>
+      </section>
+      <section class="choice">
+        <h3>ChatGPT（OpenAI API）</h3>
+        <p>ChatGPTのログイン情報ではなく、OpenAI PlatformでAPIキーを作成します。ChatGPTの月額契約にAPI料金は含まれません。</p>
+        <a class="link-button" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">OpenAI APIキーを作る ↗</a>
+      </section>
+    </div>
+    <section class="step">
+      <p><strong>どちらを選んでも：</strong>作成したキーをコピーして安全な場所に控えます。あとでCloudflareへ登録します。アプリの入力欄やこのページには貼り付けません。</p>
+    </section>
+
+    <h2 class="section-title">Web検索の料金と使い方</h2>
+    <section class="step">
+      <p><strong>AI接続がなくても検索できます。</strong>相談欄の検索にチェックすると、AIを使わないWeb全体の検索リンクを表示します。植物を選んだ場合は、その植物名でWikipediaも検索し、記事概要と出典リンクを表示します。AI接続設定もAPIキーも不要です。</p>
+      <p>選択した植物名はWikipediaへ送信されます。質問文はDuckDuckGoの検索リンクに含まれ、リンクを開くとDuckDuckGoへ送信されます。検索結果は参考情報なので、出典の内容と更新日を確認してください。</p>
+      <p>AI接続を保存した後は、同じ検索チェックで選択したAIのWeb検索を使って回答できます。チェックしなければ通常のAI相談です。検索できた場合は、回答の下に出典リンクが表示されます。</p>
+      <p>検索を使うと、質問や会話の一部が選択したAIサービスの検索機能にも送られる場合があります。個人情報や秘密は入力しないでください。</p>
+      <p><strong>料金に注意：</strong>検索は無料とは限らず、AIの回答料金とは別に検索料金が発生することがあります。2026年11月時点のGoogle料金表ではGemini 3以降に月5,000件の無料検索リクエスト、その後は1,000件あたり14米ドルと記載されています。1回の相談で複数リクエストになる場合があり、条件は変わるため、利用前に最新情報を確認してください。OpenAIの検索料金もモデル・利用状況で異なります。</p>
+      <p class="tip"><a href="https://ai.google.dev/gemini-api/docs/pricing#pricing-for-tools" target="_blank" rel="noopener noreferrer">Gemini API料金（Google公式）↗</a>　<a href="https://openai.com/api/pricing/" target="_blank" rel="noopener noreferrer">OpenAI API料金（公式）↗</a></p>
+    </section>
+
+    <h2 class="section-title">2. Cloudflare Workerを用意する</h2>
+    <section class="step">
+      <h3><span class="number">1</span>CloudflareでWorkerを開く</h3>
+      <ol>
+        <li><a href="https://dash.cloudflare.com/" target="_blank" rel="noopener noreferrer">Cloudflare Dashboard</a>にログインします。</li>
+        <li>「Workers & Pages」を開き、新しいWorkerを作るか、すでにあるWorkerを選びます。</li>
+        <li>Workerのコード編集画面を開きます。</li>
+      </ol>
+    </section>
+    <section class="step">
+      <h3><span class="number">2</span>アプリの中継コードを登録する</h3>
+      <ol>
+        <li>プロジェクト内の <code>cloudflare/worker.js</code> をテキストエディターで開きます。</li>
+        <li>コード全体をコピーし、CloudflareのWorkerコードを置き換えます。</li>
+        <li>「Save and deploy（保存してデプロイ）」を押します。</li>
+      </ol>
+      <p class="tip">コードの一部だけではなく、worker.jsの中身をすべて置き換えてください。</p>
+    </section>
+    <section class="step">
+      <h3><span class="number">3</span>APIキーをSecretに登録する</h3>
+      <ol>
+        <li>Workerの「Settings」→「Variables and Secrets」を開きます。</li>
+        <li>「Add」から種類が<strong>Secret</strong>の項目を追加します。</li>
+        <li>使うサービスに合わせて、名前とValueを入力して保存します。</li>
+      </ol>
+      <p>Geminiを使う場合の名前：</p>
+      <code class="code">GEMINI_API_KEY</code>
+      <p>ChatGPT（OpenAI API）を使う場合の名前：</p>
+      <code class="code">OPENAI_API_KEY</code>
+      <p class="tip">名前は半角英大文字で正確に入力します。ValueにはそのサービスのAPIキーを入れます。両方登録しておけば、アプリから後で切り替えられます。</p>
+    </section>
+    <section class="step">
+      <h3><span class="number">4</span>アプリの利用元を登録する</h3>
+      <p>同じ設定画面で、種類が<strong>Text</strong>の変数 <code>ALLOWED_ORIGINS</code> を追加します。</p>
+      <p>Android APKで使う場合は、Valueに次を入力します。</p>
+      <code class="code">https://appassets.androidplatform.net</code>
+      <p>Web版も使う場合は、WebサイトのOriginを半角カンマで続けて追加します。</p>
+      <code class="code">https://appassets.androidplatform.net,https://あなたのサイト.example</code>
+      <p class="tip">Originには https:// とドメインだけを書きます。末尾の / やページ名は不要です。Web版をfile://で開いた場合は接続できません。</p>
+    </section>
+    <section class="step">
+      <h3><span class="number">5</span>保存してWorker URLを控える</h3>
+      <p>設定を保存してWorkerを再デプロイします。画面に表示されたURLを控えます。</p>
+      <code class="code">https://あなたのWorker名.あなたのアカウント名.workers.dev</code>
+      <p>このURLはアプリに入力します。URLを知っている人がWorkerを利用できる可能性があるため、SNSなどに公開しないでください。</p>
+    </section>
+
+    <h2 class="section-title">3. アプリで接続する</h2>
+    <section class="step">
+      <h3><span class="number">1</span>接続先を選ぶ</h3>
+      <p>アプリの「植物のこと、相談してみよう」→「AI 接続設定」を開き、GeminiまたはChatGPTを選びます。</p>
+    </section>
+    <section class="step">
+      <h3><span class="number">2</span>Worker URLを入力する</h3>
+      <p>Cloudflareで控えた <code>https://…workers.dev</code> のURLを入力します。APIキーではありません。</p>
+    </section>
+    <section class="step">
+      <h3><span class="number">3</span>送信に同意して保存する</h3>
+      <p>選んだサービスへのデータ送信について説明を読み、同意にチェックして「設定を保存」を押します。その後、植物相談を送ってください。</p>
+      <p>Web検索を使う時だけ、相談欄の「Webも検索して回答」にチェックします。検索料金が気になる場合はチェックを外してください。</p>
+      <div class="success">
+        <p><strong>設定できました 🌱</strong></p>
+        <p>接続先とWorker URLは端末に保存されます。同じ端末なら次回も設定し直す必要はありません。サービスを切り替える時は、切替後の送信先への同意をもう一度確認してください。</p>
+      </div>
+    </section>
+
+    <h2 class="section-title">あとから変更する</h2>
+    <section class="step">
+      <ul>
+        <li><strong>GeminiとChatGPTを切り替える：</strong>「AI 接続設定」でサービスを選び直し、新しい送信先への同意にチェックして保存します。</li>
+        <li><strong>Worker URLを変える：</strong>新しいURLを入力し、同意を確認して保存します。</li>
+        <li><strong>APIキーを更新する：</strong>Cloudflareの「Settings」→「Variables and Secrets」で、該当するSecretのValueを更新します。通常、アプリ側の設定変更は不要です。</li>
+        <li><strong>AIを使わない：</strong>Worker URLを消して保存すると、端末内の植物図鑑を使う相談に戻ります。</li>
+      </ul>
+    </section>
+
+    <h2 class="section-title">困ったとき</h2>
+    <details>
+      <summary>「このアプリからの接続は許可されていません」と出る</summary>
+      <p><code>ALLOWED_ORIGINS</code> が利用する画面と一致しているか確認します。Android APKは <code>https://appassets.androidplatform.net</code>、Web版は公開サイトのOriginを登録します。変数を変えた後はWorkerを再デプロイしてください。</p>
+    </details>
+    <details>
+      <summary>APIキーが設定されていないと出る</summary>
+      <p>選択したAIに応じたSecret名を確認します。Geminiは <code>GEMINI_API_KEY</code>、OpenAIは <code>OPENAI_API_KEY</code> です。Secretを登録したWorkerが再デプロイ済みかも確認してください。</p>
+    </details>
+    <details>
+      <summary>ChatGPTを契約しているのにOpenAI APIが使えない</summary>
+      <p>ChatGPTの契約とOpenAI APIは別のサービスです。OpenAI Platform側のAPIキー、利用設定、支払い設定、利用上限を確認してください。API料金が発生することがあります。</p>
+    </details>
+    <details>
+      <summary>Web検索を使うと料金がかかる？</summary>
+      <p>検索料金や無料枠はサービス・モデル・時期によって異なります。GeminiとOpenAIの公式料金表を確認し、利用状況や上限を設定してください。Web検索を使わない場合は相談欄のチェックを外します。</p>
+    </details>
+    <details>
+      <summary>設定が端末に残らない・接続できない</summary>
+      <p>設定は保存した端末・アプリ内に記録されます。Web版とAPK、または別の端末間では共有されません。Worker URLが正しいか、HTTPSか、コードをデプロイしたか確認してください。</p>
+    </details>
+
+    <aside class="notice">
+      <strong>安全のために</strong>
+      <p>Worker URLは秘密のパスワードではありません。Origin制限だけでは利用者を認証できないため、不特定多数へ公開するアプリにはこの簡易構成を使わないでください。APIキーをアプリ、APK、HTML、Workerコード、共有画面に貼らないでください。</p>
+    </aside>
+    <h2 class="section-title">天気に合わせた水やりプラン</h2>
+    <section class="step">
+      <p>通知設定を開き、①通知を許可 ②「位置情報を許可して天気を設定」を押して天気を取得 ③植物カードの「屋外で管理」を選ぶと、天気の傾向・蒸発散量から植物ごとの確認日を調整します。雨の予報は屋外に設定した植物だけに反映します。</p>
+      <p>「アプリを開いたときに天気を自動更新」がオンなら起動時やアプリに戻ったときに確認します（最大12時間に1回）。「天気を今すぐ更新」で手動更新、「現在地を取り直す」で引っ越しや旅行後の位置を再設定できます。位置情報を削除すると季節ごとの目安に戻ります。</p>
+      <p>通知時刻は「おすすめ時刻に自動調整」または「時刻を自分で決める」から選べます。自動モードは向こう3日間の最高気温を見て、30℃以上なら7時、25℃以上なら8時、通常は朝9時、寒い冬（10℃未満）は10時ごろに土の確認をお知らせします。予報が古い場合は季節の目安（夏8時、冬10時、それ以外9時）を使います。自動時刻は天気を取得した時に見直されます。</p>
+      <p>座標は約1km単位に丸めて端末内に保存し、天気取得時にOpen-Meteoへ送信します。無料APIは非営利用途向けです。土の湿り具合までは分からないため、水やりを自動で行う機能ではありません。通知後に土を確認してください。</p>
+      <p>Android APKは端末内に通知予定を保存するため、アプリを閉じている間も通知できます。ただし省電力設定などにより時刻が前後することがあります。Web版はアプリを開いている間だけ通知します。通知が来ても土を確認し、自動で水やりする機能ではありません。</p>
+      <p class="tip"><a href="https://open-meteo.com/en/terms" target="_blank" rel="noopener noreferrer">Open-Meteo利用条件↗</a>　<a href="https://open-meteo.com/en/licence" target="_blank" rel="noopener noreferrer">データライセンス↗</a></p>
+    </section>
+    <h2 class="section-title">図鑑にない植物をWebで調べる</h2>
+    <section class="step">
+      <p>植物の追加画面で図鑑に見つからない名前を入力し、「図鑑にない植物を名前だけで登録する」を選びます。AI接続がなくても「無料で育て方を調べる」を押すとWikipediaで植物情報を検索し、出典を表示します。植物図鑑にある植物なら登録済みの育成情報を使い、図鑑にない植物なら記事概要と一般的な仮の育成目安からプランを作ります。</p>
+      <p>AIなしの検索は無料ですが、インターネット接続が必要で、植物名をWikipediaへ送信します。図鑑にない植物は検索記事に水やり方法が載っているとは限らないため、置き場所・用土・水やり・日数は仮の一般目安です。出典と内容を確認し、「植物を登録」を押して保存してください。</p>
+      <p>登録後は季節ごとの日数を基本に、天気設定がある場合は予報と過去30日分の蒸発散量に合わせて確認日を調整します。屋外で管理する設定では雨予報も反映します。天気を更新すると、登録済みの植物のプランが再計算されます。土の湿り具合は判定できないため、通知後に土を確認してください。</p>
+      <p>AI接続と外部送信への同意を保存している場合は、検索ボタンからAIのWeb検索を利用します。AI検索では植物名が設定済みサービスへ送られ、利用料金が発生する場合があります。</p>
+    </section>
+    <h2 class="section-title">記録・通知を使いやすくする</h2>
+    <section class="step">
+      <ul>
+        <li><strong>今日のお世話：</strong>確認日が来た植物だけを一覧表示します。水やり前に土を確認してください。</li>
+        <li><strong>プランの理由・情報の信頼度：</strong>植物カードで、季節や天気による調整理由と、図鑑・Wikipedia出典・一般的な仮目安の区別を確認できます。天気から土の湿り具合を測ることはできません。</li>
+        <li><strong>写真付き成長記録：</strong>記録に写真を添付できます。写真は縮小してこの端末のブラウザー内に保存され、他の端末には同期されません。</li>
+        <li><strong>状態チェック：</strong>葉の黄ばみ、害虫、斑点、土の過湿などを選ぶと観察手順を案内します。病気を診断する機能ではありません。</li>
+        <li><strong>環境メモ：</strong>植物カードから日当たり・置き場所を記録できます。相談時の参考情報になりますが、水やり間隔の計算には使いません。</li>
+        <li><strong>通知のまとめ・時間帯：</strong>夜間（21:00〜翌7:00）を避け、対象植物をまとめて通知できます。</li>
+        <li><strong>元に戻す：</strong>植物の登録・編集・記録・削除は、「元に戻す」が表示されている約10秒以内なら取り消せます。</li>
+      </ul>
+    </section>
+    <footer>みどりの記録 · AI植物相談セットアップガイド</footer>
+  </main>
+</body>
+</html>
