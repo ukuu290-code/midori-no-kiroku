@@ -1,4 +1,4 @@
-const CACHE_NAME = "midori-no-kiroku-v19";
+const CACHE_NAME = "midori-no-kiroku-v20";
 const APP_FILES = [
   "./",
   "./index.html",
@@ -36,13 +36,28 @@ self.addEventListener("fetch", (event) => {
 
   if (request.mode === "navigate") {
     event.respondWith(
-      fetch(request).catch(() => caches.match("./index.html"))
+      fetch(request).then(async (response) => {
+        if (response.ok) {
+          const cache = await caches.open(CACHE_NAME);
+          await cache.put(request, response.clone());
+          await cache.put("./index.html", response.clone());
+        }
+        return response;
+      }).catch(async () => (
+        await caches.match(request) || caches.match("./index.html")
+      ))
     );
     return;
   }
 
   event.respondWith(
-    caches.match(request).then((cached) => cached || fetch(request))
+    fetch(request).then(async (response) => {
+      if (response.ok) {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(request, response.clone());
+      }
+      return response;
+    }).catch(() => caches.match(request))
   );
 });
 
